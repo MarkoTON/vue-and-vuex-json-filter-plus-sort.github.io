@@ -186,6 +186,17 @@ export const store = new Vuex.Store({
       } else {
         state.filterUsers = state.users
       } 
+    },
+    UPDATE_VISIBLE_USERS(state,payload) {
+      console.log(payload)
+      console.log(payload.pageSize)
+      console.log(payload.currentPage)
+      state.filterUsers = state.users.slice(payload.currentPage * payload.pageSize, (payload.currentPage * payload.pageSize) + payload.pageSize);
+
+      // if we have 0 visible todos, go back a page
+      // if (state.filterUsers.length == 0 && payload.currentPage > 0) {
+      //   this.updatePage(this.currentPage -1);
+      // }
     }
 	},
 	actions: {

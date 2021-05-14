@@ -1,6 +1,7 @@
 <template>
   <div class="container mt-4">
     <!-- {{usersFromGetters}} -->
+    <Pagination />
     <FilterTable />
     <TableUsers />
   </div>
@@ -8,7 +9,8 @@
 
 <script>
 import FilterTable from './FilterTable.vue'
-import TableUsers from './TableUsers'
+import TableUsers from './TableUsers';
+import Pagination from './Pagination';
 
 export default {
   name: 'HelloWorld',
@@ -19,7 +21,8 @@ export default {
   },
   components: {
     TableUsers,
-    FilterTable
+    FilterTable,
+    Pagination
   },
   computed:{
     // All users from API ready to loop
