@@ -13,7 +13,6 @@ export const store = new Vuex.Store({
     paginatedDataUsers:[],
     currentPage:1,
     perPage: 20,
-    maxVisibleButtons: 5,
     totalPages: 1
 	},
 	getters: {
@@ -207,7 +206,6 @@ export const store = new Vuex.Store({
       state.filterUsers = state.users.slice(start, end)
     },
     UPDATE_PAGE(state, payload) {
-      // console.log('UPDATE_PAGE' + " " + payload)
       state.currentPage += payload
       state.totalPages = Math.ceil(state.users.length / state.perPage);
       let start = (state.currentPage - 1) * state.perPage, end = start + state.perPage
@@ -226,7 +224,6 @@ export const store = new Vuex.Store({
       commit('UPDATE_PAGE',payload)
     },
     show_by_page({commit}, payload){
-      console.log(payload)
       commit('SHOW_BY_PAGE',payload)
     }
 	}

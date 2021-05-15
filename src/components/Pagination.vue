@@ -26,11 +26,10 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'pagination',
-  props: ['stateUsers'],
   data(){
     return {
       pageSize: 20,
