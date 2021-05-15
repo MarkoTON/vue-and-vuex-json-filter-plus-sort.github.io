@@ -1,26 +1,32 @@
 <template>
-  <div>
-    <div class="mr-2 d-inline-block">
-      <select class="form-control mr-1 selectStatus clickable" v-model="pageSize" @change="showPerPage">
-        <option v-bind:value="20">20 per page</option>
-        <option v-bind:value="50">50 per page</option>
-        <option v-bind:value="100">100 per page</option>
-        <option v-bind:value="200">200 per page</option>
-        <option v-bind:value="500">500 per page</option>
-        <option v-bind:value="1000">1000 per page</option>
-      </select>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <p>Filtering and Sorting by using Veux:</p>
+    <div class="d-flex align-items-center">
+      <div class="me-3">
+        <select class="form-control mr-1 selectStatus clickable" v-model="pageSize" @change="showPerPage">
+          <option v-bind:value="20">20 per page</option>
+          <option v-bind:value="50">50 per page</option>
+          <option v-bind:value="100">100 per page</option>
+          <option v-bind:value="200">200 per page</option>
+          <option v-bind:value="500">500 per page</option>
+          <option v-bind:value="1000">1000 per page</option>
+        </select>
+      </div>
+
+      <div>
+        <div v-if="totalPages() > 0" class="pagination-wrapper text-center">
+          <span v-if="showPreviousLink()" class="pagination-btn" v-on:click="updatePagePrev"> &lsaquo; </span>
+          {{ currentPage }} of {{ totalPages() }}
+          <span v-if="showNextLink()" class="pagination-btn" v-on:click="updatePageNext"> 	&rsaquo; </span>
+        </div>
+      </div>
     </div><!-- mr-2 -->
 
-    <div v-if="totalPages() > 0" class="pagination-wrapper text-center">
-      <span v-if="showPreviousLink()" class="pagination-btn" v-on:click="updatePagePrev"> &lsaquo; </span>
-      {{ currentPage }} of {{ totalPages() }}
-      <span v-if="showNextLink()" class="pagination-btn" v-on:click="updatePageNext"> 	&rsaquo; </span>
-    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'pagination',
@@ -32,25 +38,25 @@ export default {
     }
   },
   computed: {
-    ...mapMutations([
-      'SHOW_BY_PAGE',
-      'UPDATE_PAGE'
-    ]),
     ...mapGetters([
       'updateHomePage'
+    ]),
+    ...mapActions([
+      'update_page',
+      'show_by_page'
     ])
   },
   methods: {
     showPerPage(){
-      this.$store.commit('SHOW_BY_PAGE', this.pageSize)
+      this.$store.dispatch('show_by_page', this.pageSize)
     },
     updatePageNext() {
       this.currentPage += 1
-      this.$store.commit('UPDATE_PAGE', 1)
+      this.$store.dispatch('update_page', 1)
     },
     updatePagePrev(){
       this.currentPage -= 1
-      this.$store.commit('UPDATE_PAGE', -1)
+      this.$store.dispatch('update_page', -1)
     },
     totalPages() {
       return Math.ceil(this.updateHomePage.length / this.pageSize);

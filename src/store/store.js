@@ -200,10 +200,17 @@ export const store = new Vuex.Store({
     },
     SHOW_BY_PAGE(state,payload) {
       state.perPage = payload
-      state.totalPages = Math.ceil(state.users.length / state.perPage);
+      state.totalPages = Math.ceil(state.users.length / state.perPage);let start = (state.currentPage - 1) * state.perPage, end = start + state.perPage
+      state.paginatedDataUsers = state.users.slice(start, end)
+      state.filterUsers = state.users.slice(start, end)
     },
     UPDATE_PAGE(state, payload) {
+      // console.log('UPDATE_PAGE' + " " + payload)
       state.currentPage += payload
+      state.totalPages = Math.ceil(state.users.length / state.perPage);
+      let start = (state.currentPage - 1) * state.perPage, end = start + state.perPage
+      state.paginatedDataUsers = state.users.slice(start, end)
+      state.filterUsers = state.users.slice(start, end)
     }
 	},
 	actions: {
@@ -212,6 +219,13 @@ export const store = new Vuex.Store({
       .then(response => {
         commit('SET_POSTS', response.data)
       })
+    },
+    update_page({commit},payload){
+      commit('UPDATE_PAGE',payload)
+    },
+    show_by_page({commit}, payload){
+      console.log(payload)
+      commit('SHOW_BY_PAGE',payload)
     }
 	}
 });
