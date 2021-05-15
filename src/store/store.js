@@ -199,8 +199,10 @@ export const store = new Vuex.Store({
       } 
     },
     SHOW_BY_PAGE(state,payload) {
+      state.currentPage = 1;
       state.perPage = payload
-      state.totalPages = Math.ceil(state.users.length / state.perPage);let start = (state.currentPage - 1) * state.perPage, end = start + state.perPage
+      state.totalPages = Math.ceil(state.users.length / state.perPage);
+      let start = (state.currentPage - 1) * state.perPage, end = start + state.perPage
       state.paginatedDataUsers = state.users.slice(start, end)
       state.filterUsers = state.users.slice(start, end)
     },

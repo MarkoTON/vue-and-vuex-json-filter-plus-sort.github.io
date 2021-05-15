@@ -48,6 +48,7 @@ export default {
   },
   methods: {
     showPerPage(){
+      this.currentPage = 1;
       this.$store.dispatch('show_by_page', this.pageSize)
     },
     updatePageNext() {
