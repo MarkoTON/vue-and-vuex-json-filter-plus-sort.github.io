@@ -1,6 +1,5 @@
 <template>
   <div class="container mt-4">
-    <!-- {{usersFromGetters}} -->
     <Pagination />
     <FilterTable />
     <TableUsers />
@@ -25,10 +24,6 @@ export default {
     Pagination
   },
   computed:{
-    // All users from API ready to loop
-    usersFromGetters(){
-      return this.$store.getters.updateHomePage
-    }
   },
   methods:{
   },

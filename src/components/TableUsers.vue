@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item,index) in updateHomePage" :key="index">
+        <tr v-for="(item,index) in paginatedData" :key="index">
           <td>{{index+1}}</td>
           <td>{{item.fullName}}</td>
           <td>{{item.balance}}</td>
@@ -39,11 +39,12 @@ export default {
       orderDate: true,
       orderCountry: true,
       orderState: true,
+      users: []
     }
   },
   computed:{
     // All users from API ready to loop
-    ...mapGetters(['updateHomePage']),
+    ...mapGetters(['paginatedData']),
   },
   methods:{
     ...mapMutations([

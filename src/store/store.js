@@ -9,11 +9,19 @@ export const store = new Vuex.Store({
 	state: {
     users: [],
     filterUsers:[],
-    sortOrder:true
+    sortOrder:true,
+    paginatedDataUsers:[],
+    currentPage:1,
+    perPage: 20,
+    maxVisibleButtons: 5,
+    totalPages: 1
 	},
 	getters: {
     updateHomePage(state){
-      return state.filterUsers
+      return state.users
+    },
+    paginatedData(state){
+      return state.paginatedDataUsers
     },
 	},
 	mutations: {
@@ -41,14 +49,17 @@ export const store = new Vuex.Store({
           stateUsers.push(user)
         }
       });
-
+      
       state.users = stateUsers;
-      state.filterUsers = state.users;
+      state.totalPages = Math.ceil(state.users.length / state.perPage);
+      let start = (state.currentPage - 1) * state.perPage, end = start + state.perPage
+      state.paginatedDataUsers = state.users.slice(start, end)
+      state.filterUsers = state.users.slice(start, end)
     },
     SORT_BY_NAME(state){
       let order = state.sortOrder;
       state.sortOrder = !order;
-      state.filterUsers.sort(function(a,b){
+      state.paginatedDataUsers.sort(function(a,b){
         let nameA = a.fullName.toUpperCase()
         let nameB = b.fullName.toUpperCase()
         if(order){
@@ -61,7 +72,7 @@ export const store = new Vuex.Store({
     SORT_BY_COUNTRY(state){
       let order = state.sortOrder;
       state.sortOrder = !order;
-      state.filterUsers.sort(function(a,b){
+      state.paginatedDataUsers.sort(function(a,b){
         let nameA = a.country.toUpperCase()
         let nameB = b.country.toUpperCase()
         if(order){
@@ -74,7 +85,7 @@ export const store = new Vuex.Store({
     SORT_BY_CITY(state){
       let order = state.sortOrder;
       state.sortOrder = !order;
-      state.filterUsers.sort(function(a,b){
+      state.paginatedDataUsers.sort(function(a,b){
         let nameA = a.name.toUpperCase()
         let nameB = b.name.toUpperCase()
         if(order){
@@ -87,7 +98,7 @@ export const store = new Vuex.Store({
     SORT_BY_BALANCE(state){
       let order = state.sortOrder;
       state.sortOrder = !order;
-      state.filterUsers.sort(function(a,b){
+      state.paginatedDataUsers.sort(function(a,b){
         var balanceA = parseFloat(a.balance.substring(1).replace(",","").replace(".",""))
         var balanceB = parseFloat(b.balance.substring(1).replace(",","").replace(".",""))
         if(order){
@@ -100,7 +111,7 @@ export const store = new Vuex.Store({
     SORT_BY_IS_ACTIVE(state){
       let order = state.sortOrder;
       state.sortOrder = !order;
-      state.filterUsers.sort(function(x,y){
+      state.paginatedDataUsers.sort(function(x,y){
         if(order){
           return (x.isActive === y.isActive) ? 0 : x.isActive ? 1 : -1;
         } else {
@@ -111,7 +122,7 @@ export const store = new Vuex.Store({
     SORT_BY_DATE(state){
       let order = state.sortOrder;
       state.sortOrder = !order;
-      state.filterUsers.sort(function(a,b){
+      state.paginatedDataUsers.sort(function(a,b){
         var registeredA = a.registered; 
         var registeredB = b.registered; 
         if(order){
@@ -123,80 +134,76 @@ export const store = new Vuex.Store({
     },
     FILTER_BY_ACTIVE(state, payload){
       let byActive;
-      // state.filterUsers = state.users;
+      state.paginatedDataUsers = state.filterUsers;
       if(payload == true){
-        byActive = state.users.filter(a => {
+        byActive = state.paginatedDataUsers.filter(a => {
           return a.isActive == true
         });
       } else if (payload == false){
-        byActive = state.users.filter(a => {
+        byActive = state.paginatedDataUsers.filter(a => {
           return a.isActive == false
         });
       } else {
-        byActive = state.users;
+        byActive = state.filterUsers;
       }
-      state.filterUsers = byActive;
+      state.paginatedDataUsers = byActive;
     },
     FILTER_BY_NAME(state,payload){
       if(payload){
-        state.filterUsers = state.users
-        return state.filterUsers = state.filterUsers.filter(name => {
+        state.paginatedDataUsers = state.filterUsers
+        return state.paginatedDataUsers = state.paginatedDataUsers.filter(name => {
           return name.fullName.toLowerCase().match(payload)
         })
       } else {
-        state.filterUsers = state.users
+        state.paginatedDataUsers = state.filterUsers
       } 
     },
     FILTER_BY_COUNTRY(state,payload){
       if(payload){
-        state.filterUsers = state.users
-        return state.filterUsers = state.filterUsers.filter(item => {
+        state.paginatedDataUsers = state.filterUsers
+        return state.paginatedDataUsers = state.paginatedDataUsers.filter(item => {
           return item.country.toLowerCase().match(payload)
         })
       } else {
-        state.filterUsers = state.users
+        state.paginatedDataUsers = state.filterUsers
       } 
     },
     FILTER_BY_STATE(state,payload){
       if(payload){
-        state.filterUsers = state.users
-        return state.filterUsers = state.filterUsers.filter(item => {
+        state.paginatedDataUsers = state.filterUsers
+        return state.paginatedDataUsers = state.paginatedDataUsers.filter(item => {
           return item.name.toLowerCase().match(payload)
         })
       } else {
-        state.filterUsers = state.users
+        state.paginatedDataUsers = state.filterUsers
       } 
     },
     FILTER_BY_REGISTERED(state,payload){
       if(payload){
-        state.filterUsers = state.users
-        return state.filterUsers = state.filterUsers.filter(item => {
+        state.paginatedDataUsers = state.filterUsers
+        return state.paginatedDataUsers = state.paginatedDataUsers.filter(item => {
           return item.registered.toLowerCase().match(payload)
         })
       } else {
-        state.filterUsers = state.users
+        state.paginatedDataUsers = state.filterUsers
       } 
     },
     FILTER_BY_BALANCE(state,payload){
       if(payload){
-        state.filterUsers = state.users
-        return state.filterUsers = state.filterUsers.filter(item => {
+        state.paginatedDataUsers = state.filterUsers
+        return state.paginatedDataUsers = state.paginatedDataUsers.filter(item => {
           return item.balance.toLowerCase().match(payload)
         })
       } else {
-        state.filterUsers = state.users
+        state.paginatedDataUsers = state.filterUsers
       } 
     },
-    UPDATE_VISIBLE_USERS(state,payload) {
-      console.log(payload)
-      console.log(payload.pageSize)
-      console.log(payload.currentPage)
-      state.filterUsers = state.users.slice(payload.currentPage * payload.pageSize, (payload.currentPage * payload.pageSize) + payload.pageSize);
-
-      // if we have 0 visible todos, go back a page
-      // if (state.filterUsers.length == 0 && payload.currentPage > 0) {
-      //   this.updatePage(this.currentPage -1);
-      // }
+    SHOW_BY_PAGE(state,payload) {
+      state.perPage = payload
+      state.totalPages = Math.ceil(state.users.length / state.perPage);
+    },
+    UPDATE_PAGE(state, payload) {
+      state.currentPage += payload
     }
 	},
 	actions: {
