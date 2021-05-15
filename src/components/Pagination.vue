@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <p>Filtering and Sorting by using Veux:</p>
+    <h1>Filtering and Sorting by using Veux:</h1>
     <div class="d-flex align-items-center">
       <div class="me-3">
         <select class="form-control mr-1 selectStatus clickable" v-model="pageSize" @change="showPerPage">
