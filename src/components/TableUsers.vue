@@ -23,7 +23,7 @@
           <td>{{item.name}}</td>
         </tr>
       </tbody>
-    </table> 
+    </table> <!--table -->
   </div>
 </template>
 
