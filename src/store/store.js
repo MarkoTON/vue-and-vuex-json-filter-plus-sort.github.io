@@ -48,7 +48,7 @@ export const store = new Vuex.Store({
           stateUsers.push(user)
         }
       });
-      
+
       state.users = stateUsers;
       state.totalPages = Math.ceil(state.users.length / state.perPage);
       let start = (state.currentPage - 1) * state.perPage, end = start + state.perPage
@@ -122,8 +122,8 @@ export const store = new Vuex.Store({
       let order = state.sortOrder;
       state.sortOrder = !order;
       state.paginatedDataUsers.sort(function(a,b){
-        var registeredA = a.registered; 
-        var registeredB = b.registered; 
+        var registeredA = a.registered;
+        var registeredB = b.registered;
         if(order){
           return new Date(registeredB) - new Date(registeredA);
         } else {
@@ -155,7 +155,7 @@ export const store = new Vuex.Store({
         })
       } else {
         state.paginatedDataUsers = state.filterUsers
-      } 
+      }
     },
     FILTER_BY_COUNTRY(state,payload){
       if(payload){
@@ -165,7 +165,7 @@ export const store = new Vuex.Store({
         })
       } else {
         state.paginatedDataUsers = state.filterUsers
-      } 
+      }
     },
     FILTER_BY_STATE(state,payload){
       if(payload){
@@ -175,7 +175,7 @@ export const store = new Vuex.Store({
         })
       } else {
         state.paginatedDataUsers = state.filterUsers
-      } 
+      }
     },
     FILTER_BY_REGISTERED(state,payload){
       if(payload){
@@ -185,7 +185,7 @@ export const store = new Vuex.Store({
         })
       } else {
         state.paginatedDataUsers = state.filterUsers
-      } 
+      }
     },
     FILTER_BY_BALANCE(state,payload){
       if(payload){
@@ -195,7 +195,7 @@ export const store = new Vuex.Store({
         })
       } else {
         state.paginatedDataUsers = state.filterUsers
-      } 
+      }
     },
     SHOW_BY_PAGE(state,payload) {
       state.currentPage = 1;
@@ -215,7 +215,7 @@ export const store = new Vuex.Store({
 	},
 	actions: {
     getPosts({ commit }) {
-      axios.get('https://fww-demo.herokuapp.com/')
+      axios.get('https://raw.githubusercontent.com/MarkoTON/json-data-to-play.github.io/main/bigJsonFileOfUsers.json')
       .then(response => {
         commit('SET_POSTS', response.data)
       })
@@ -228,4 +228,4 @@ export const store = new Vuex.Store({
     }
 	}
 });
-//axios.get('https://fww-demo.herokuapp.com/').then(response => (this.info = response.data))
+//axios.get('https://raw.githubusercontent.com/MarkoTON/json-data-to-play.github.io/main/bigJsonFileOfUsers.json').then(response => (this.info = response.data))
