@@ -1,7 +1,5 @@
 <template>
   <div class="container mt-4">
-    <h1 class="text-center">Linux changes</h1>
-    <hr>
     <Pagination />
     <FilterTable />
     <TableUsers />
